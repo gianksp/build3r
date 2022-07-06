@@ -1,0 +1,29 @@
+{
+  "name": "dappify",
+  "version": "0.0.1",
+  "description": "",
+  "keywords": [
+    "web3",
+    "builder"
+  ],
+  "license": "",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "author": "",
+  "scripts": {
+    "build": "parcel build src/index.html --public-url ./",
+    "dev": "parcel src/index.html --open --no-cache",
+    "start": "npm run build && npm run dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "cssnano": "^5.1.12",
+    "parcel": "^2.6.2",
+    "parcel-bundler": "^1.3.1",
+    "postcss": "^8.4.14"
+  },
+  "dependencies": {
+    "grapesjs": "^0.19.4",
+    "jquery": "^3.6.0",
+    "jquery-ui": "^1.13.1"
+  }
+}

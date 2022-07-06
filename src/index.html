@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Build3r - A community powered, censorship resistant site builder</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta content="Build3r - A community powered, censorship resistant site builder" name="description">
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+
+        <!-- CSS only -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/grapesjs/0.19.4/css/grapes.min.css" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/grapesjs-preset-webpage@0.1.11/dist/grapesjs-preset-webpage.min.css">
+        <link rel="stylesheet" href="https://unpkg.com/grapick/dist/grapick.min.css" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://unpkg.com/grapick/dist/grapick.min.css" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://unpkg.com/grapesjs-project-manager/dist/grapesjs-project-manager.min.css" crossorigin="anonymous">
+
+        <!-- JS only -->
+        <script type="module" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script type="module" src="https://unpkg.com/grapesjs-lory-slider"></script>
+        <script type="module" src="https://unpkg.com/grapesjs-tabs"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
+        <script src="https://auth.magic.link/sdk"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/grapesjs/0.19.4/grapes.min.js"></script>
+        <script src="https://unpkg.com/grapesjs-project-manager"></script>
+        <script src="https://cdn.jsdelivr.net/npm/grapesjs-preset-webpage@0.1.11/dist/grapesjs-preset-webpage.min.js"></script>
+        <script src="https://unpkg.com/grapesjs-tailwind"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/grapesjs-tooltip@0.1.5/dist/grapesjs-tooltip.min.js"></script>
+        <script src="https://unpkg.com/grapesjs-custom-code"></script>
+        <script src="https://unpkg.com/grapesjs-touch"></script>
+        <script src="https://unpkg.com/grapesjs-parser-postcss"></script>
+        <script src="https://unpkg.com/grapesjs-tui-image-editor"></script>
+        <script src="https://unpkg.com/grapesjs-typed"></script>
+        <script src="https://unpkg.com/grapesjs-style-bg"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-firestore.js"></script>
+        <script type="module" src="./App.js"></script>
+    </head>
+    <body>
+        <div id="gjs"></div>
+  
+  
+        <div class="modal fade" id="login-panel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Preparing to ship!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                
+                <form id="signin-form" onsubmit="handleAuth(event)">
+                  <div class="text-center">
+                    <img class="mb-4" src="./assets/img/dappify-logo-full.png" alt="" width="200" height="auto">
+                  </div>
+        
+                  <div class="mb-3">
+                    <label for="email" class="form-label">Email address</label>
+                    <input name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp">
+                    <div id="emailHelp" class="form-text">You will receive a magic link to complete the process</div>
+                  </div>
+        
+              
+                  <button id="submit-link-btn" class="w-100 btn btn-lg btn-primary" type="submit">Send me the link!</button>
+                  <button id="wait-link-btn" class="w-100 btn btn-lg btn-primary d-none" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Preparing link...
+                  </button>
+                </form>
+        
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="publish-panel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Ready to publish!</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+          
+              <p class='inline'><h4>Hi, <strong><span id="current-email"></span></strong> <button onclick="handleSwitchAccount(event)" type="button" class="btn btn-light">Switch account</button></h4> </p>
+              <p>Do you want yo publish a new revision of your template to IPFS, the permanent web?</p>
+          
+              <div class="row g-0 bg-light position-relative">
+                <div class="col-md-6 mb-md-0 p-md-4">
+                  <img src="https://moralis.io/wp-content/uploads/2021/06/21_06_What_is_Interplanetary-File-System_IPFS.jpg" class="w-100" alt="Learn more about IPFS">
+                </div>
+                <div class="col-md-6 p-4 ps-md-0">
+                  <h6 class="mt-0">About IPFS</h6>
+                  <p>IPFS is a distributed system for storing and accessing files, websites, applications, and data.</p>
+                  <a target="_blank" href="https://moralis.io/what-is-ipfs-interplanetary-file-system/" class="stretched-link">Learn more!</a>
+                </div>
+              </div>
+
+
+              <button id="publish-btn" class="w-100 btn btn-lg btn-primary" type="submit" onclick="handlePublishToIpfs(event)">Publish</button>
+              <button id="wait-publish-btn" class="w-100 btn btn-lg btn-primary d-none" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Publishing...
+              </button>
+            </form>
+    
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="confirmation-panel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Congrats!</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+              
+                <div class="alert alert-success text-wrap" role="alert">
+                  <h4 class="alert-heading">Your site is live!</h4>
+                  <a target="_blank" href="https://dappify.com" id="project-url">Your project URL</a>
+                  <hr>
+                  <p class="mb-0">Make sure to copy the URL and share it with your friends!.</p>
+                </div>
+    
+         
+        
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        
+    </body>
+</html>
