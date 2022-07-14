@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="https://unpkg.com/grapesjs-project-manager/dist/grapesjs-project-manager.min.css" crossorigin="anonymous">
 
         <!-- JS only -->
-        <script type="module" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script type="module" src="https://unpkg.com/grapesjs-lory-slider"></script>
         <script type="module" src="https://unpkg.com/grapesjs-tabs"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
@@ -40,108 +40,23 @@
         <script type="module" src="./App.js"></script>
     </head>
     <body>
+
+        <!-- Builder container -->
         <div id="gjs"></div>
   
-  
-        <div class="modal fade" id="login-panel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <!-- Modal container -->
+        <div class="modal fade" id="modal-view" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Preparing to ship!</h5>
+                <h5 class="modal-title" id="staticBackdropLabel"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                
-                <form id="signin-form" onsubmit="handleAuth(event)">
-                  <div class="text-center">
-                    <img class="mb-4" src="./assets/img/dappify-logo-full.png" alt="" width="200" height="auto">
-                  </div>
-        
-                  <div class="mb-3">
-                    <label for="email" class="form-label">Email address</label>
-                    <input name="email" type="email" class="form-control" id="email" aria-describedby="emailHelp">
-                    <div id="emailHelp" class="form-text">You will receive a magic link to complete the process</div>
-                  </div>
-        
-              
-                  <button id="submit-link-btn" class="w-100 btn btn-lg btn-primary" type="submit">Send me the link!</button>
-                  <button id="wait-link-btn" class="w-100 btn btn-lg btn-primary d-none" type="button" disabled>
-                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    Preparing link...
-                  </button>
-                </form>
-        
               </div>
             </div>
           </div>
         </div>
 
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="publish-panel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="staticBackdropLabel">Ready to publish!</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-          
-              <p class='inline'><h4>Hi, <strong><span id="current-email"></span></strong> <button onclick="handleSwitchAccount(event)" type="button" class="btn btn-light">Switch account</button></h4> </p>
-              <p>Do you want yo publish a new revision of your template to IPFS, the permanent web?</p>
-          
-              <div class="row g-0 bg-light position-relative">
-                <div class="col-md-6 mb-md-0 p-md-4">
-                  <img src="https://moralis.io/wp-content/uploads/2021/06/21_06_What_is_Interplanetary-File-System_IPFS.jpg" class="w-100" alt="Learn more about IPFS">
-                </div>
-                <div class="col-md-6 p-4 ps-md-0">
-                  <h6 class="mt-0">About IPFS</h6>
-                  <p>IPFS is a distributed system for storing and accessing files, websites, applications, and data.</p>
-                  <a target="_blank" href="https://moralis.io/what-is-ipfs-interplanetary-file-system/" class="stretched-link">Learn more!</a>
-                </div>
-              </div>
-
-
-              <button id="publish-btn" class="w-100 btn btn-lg btn-primary" type="submit" onclick="handlePublishToIpfs(event)">Publish</button>
-              <button id="wait-publish-btn" class="w-100 btn btn-lg btn-primary d-none" type="button" disabled>
-                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                Publishing...
-              </button>
-            </form>
-    
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-
-
-        <!-- Modal -->
-        <div class="modal fade" id="confirmation-panel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Congrats!</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-              
-                <div class="alert alert-success text-wrap" role="alert">
-                  <h4 class="alert-heading">Your site is live!</h4>
-                  <a target="_blank" href="https://dappify.com" id="project-url">Your project URL</a>
-                  <hr>
-                  <p class="mb-0">Make sure to copy the URL and share it with your friends!.</p>
-                </div>
-    
-         
-        
-              </div>
-            </div>
-          </div>
-        </div>
-    
-        
     </body>
 </html>

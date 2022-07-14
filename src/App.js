@@ -1,7 +1,10 @@
-import MyPlugin from './modules/CoinPriceCovalent';
+import PluginCoinPrice from './modules/CoinPriceCovalent';
+import PluginWalletAuth from './modules/WalletAuth';
 import './assets/css/tooltip.css';
 import './assets/css/main.css';
-
+import LoginModal from './views/modal/Login';
+import PublishModal from './views/modal/Publish';
+import ConfirmationModal from './views/modal/Confirmation';
     
 
 // $().load("./views/modal/modal4.html #jquery-load-point");
@@ -46,30 +49,31 @@ import './assets/css/main.css';
             selectorManager: { componentFirst: true, escapeName },
             styleManager: { sectors: [] },
             plugins: [
-              MyPlugin,
-              // 'grapesjs-project-manager',
-              'grapesjs-tailwind',
-              'grapesjs-lory-slider',
-              'grapesjs-tabs',
-              'grapesjs-custom-code',
-              'grapesjs-touch',
-              'grapesjs-parser-postcss',
-              'grapesjs-tooltip',
-              'grapesjs-tui-image-editor',
-              'grapesjs-typed',
-              'grapesjs-style-bg',
+              PluginCoinPrice,
+              PluginWalletAuth,
+              'grapesjs-project-manager',
+              // 'grapesjs-tailwind',
+              // 'grapesjs-lory-slider',
+              // 'grapesjs-tabs',
+              // 'grapesjs-custom-code',
+              // 'grapesjs-touch',
+              // 'grapesjs-parser-postcss',
+              // 'grapesjs-tooltip',
+              // 'grapesjs-tui-image-editor',
+              // 'grapesjs-typed',
+              // 'grapesjs-style-bg',
               'gjs-preset-webpage',
             ],
             pluginsOpts: {
               'grapesjs-project-manager': { 
                 loadFirst: true,
-          // Firebase API key
-          apiKey: 'AIzaSyCq-bGOOcMWtIi0XluZWYTohykQqdPMsN4',
-          // Firebase Auth domain
-          authDomain: 'dapp-d6358.firebaseapp.com',
-          // Cloud Firestore project ID
-          projectId: 'dapp-d6358',
-        },
+                // Firebase API key
+                apiKey: 'AIzaSyCq-bGOOcMWtIi0XluZWYTohykQqdPMsN4',
+                // Firebase Auth domain
+                authDomain: 'dapp-d6358.firebaseapp.com',
+                // Cloud Firestore project ID
+                projectId: 'dapp-d6358',
+            },
               'grapesjs-tui-image-editor': {
                 script: [
                   // 'https://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.6.7/fabric.min.js',
@@ -520,10 +524,14 @@ import './assets/css/main.css';
     
               if (user) {
                 console.log(user);
+                $('.modal-title').html('Ready to publish?');
+                $('.modal-body').html(PublishModal);
                 $('#current-email').text(user.get('email'))
-                $('#publish-panel').modal('show');
+                $('#modal-view').modal('show');
               } else {
-                $('#login-panel').modal('show');
+                // $( "#data" ).load( "https://www.quackit.com/jquery/tutorial/latestData.html #dataList" );
+                // $('.gjs').load( "./views/modal/modal4.html #modalis");
+                // $('#login-panel').modal('show');
             
 
                   // $("#container").load('./views/modal/modal4.html').appendTo("body");
@@ -533,8 +541,9 @@ import './assets/css/main.css';
                     // $('#login-panel').modal('show');
                   // });
 
-
-                  // $('#login-panel').modal('show');
+                  $('.modal-title').html('Please Login');
+                  $('.modal-body').html(LoginModal);
+                  $('#modal-view').modal('show');
                 // });
 
                     
@@ -579,11 +588,11 @@ import './assets/css/main.css';
            ['export-template', 'Export'], ['undo', 'Undo'], ['redo', 'Redo'],
            ['gjs-open-import-webpage', 'Import'], ['canvas-clear', 'Clear canvas']]
           .forEach(function(item) {
-            pn.getButton('options', item[0]).set('attributes', {title: item[1], 'data-tooltip-pos': 'bottom'});
+            pn.getButton('options', item[0])?.set('attributes', {title: item[1], 'data-tooltip-pos': 'bottom'});
           });
           [['open-sm', 'Style Manager'], ['open-layers', 'Layers'], ['open-blocks', 'Blocks']]
           .forEach(function(item) {
-            pn.getButton('views', item[0]).set('attributes', {title: item[1], 'data-tooltip-pos': 'bottom'});
+            pn.getButton('views', item[0])?.set('attributes', {title: item[1], 'data-tooltip-pos': 'bottom'});
           });
           var titles = document.querySelectorAll('*[title]');
     
@@ -717,7 +726,7 @@ console.log(inputByName.value);
 
 }
 
-const handleSwitchAccount = async () => {
+window.handleSwitchAccount = async () => {
 
   // alert("The form was submitted");
   await Moralis.User.logOut();
@@ -728,7 +737,7 @@ const handleSwitchAccount = async () => {
 }
 
 
-const handlePublishToIpfs = async (e) => {
+window.handlePublishToIpfs = async (e) => {
   // console.log(e);
         // e.preventDefault();
         console.log("publishing");
@@ -797,10 +806,18 @@ console.log(content);
 
 
                   $('#publish-panel').modal('hide');
+                  
+
+
+                  $('.modal-title').html('Congrats!');
+                  $('.modal-body').html(ConfirmationModal);
+
                   $("#project-url").attr("href", f.ipfs());
                   $("#project-url").text(`ipfs/${f.hash()}`);
-                  
-          $('#confirmation-panel').modal('show');
+                  $('#modal-view').modal('show');
+
+
+
                   $("#publish-btn").removeClass('d-none');
                   $("#wait-publish-btn").addClass('d-none');
 

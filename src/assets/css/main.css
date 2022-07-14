@@ -1,9 +1,41 @@
+:root {
+  --text-opaque: #fff;
+  --text-dim: hsla(0,0%,100%,0.8);
+  --text-color: hsla(0,0%,100%,0.8);
+  --font: "Montserrat","Segoe UI",sans-serif;
+  --home-color: #1d2023;
+  --flatbox-color: #23262a;
+  --workspace-color: #171719;
+  --menu-color: #202225;
+  --panel-color: #292c31;
+  --title-color: #24262b;
+  --component-border: hsla(0,0%,100%,0.5);
+  --component-dim: hsla(0,0%,100%,0.06);
+  --component-shade: rgba(0,0,0,0.1);
+  --component-color: #34363c;
+  --component-highlight: #424549;
+  --slider-color: #494b50;
+  --normal-opacity: 0.6;
+  --hover-opacity: 1;
+  --accent-negative: #3f4246;
+  --splitter-size: 8px;
+  --splitter-small-size: 4px;
+  --scrollbar-color: #ffffff20;
+  --scrollbar-color-hover: #ffffff30;
+  --accent-color: #00a5a5;
+  --accent-light-color: #00b2b2;
+  --accent-shadow-color: #00a5a599;
+}
+
 body,
 html {
   height: 100%;
   margin: 0;
   overflow: hidden;
+  background: var(--flatbox-color);
 }
+
+
 
 #project-url {
   word-break: break-word;
@@ -123,8 +155,8 @@ html {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border: 1pxsolidrgba(0,0,0,.2);
-  border-radius: 3px;
+  border: 1px solid var(--component-border);
+  border-radius: 4px;
   margin: 10px 2.5% 5px;
   -webkit-box-shadow: 0 1px 0 0 rgb(0 0 0 / 15%);
   box-shadow: 0 1px 0 0rgba(0,0,0,.15);
@@ -137,12 +169,12 @@ html {
 }
 
 .gjs-category-title, .gjs-layer-title, .gjs-block-category .gjs-title, .gjs-sm-sector .gjs-sm-title, .gjs-clm-tags .gjs-sm-title {
-  background-color: #f1f1f1 !important;
+  background-color: var(--flatbox-color);
 }
 
 .gjs-field {
-  color: #6366f1 !important;
-  background-color: #f1f1f1 !important;
+  color: var(--text-dim);
+  background-color: var(--flatbox-color);
 }
 
 .gjs-sm-field input {
@@ -159,24 +191,24 @@ html {
 }
 
 .gjs-one-bg {
-  background-color: white !important;
+  background-color: var(--home-color);
 }
 
 .gjs-two-color {
-  color: #6366f1 !important;
+  color: var(--text-dim);
 }
 
 .gjs-three-bg {
-  color: white !important;
-  background-color: #6366f1 !important;
+  color:  var(--flatbox-color);
+  background-color: var(--flatbox-color);
 }
 
 .gjs-four-color {
-  color: #6366f1 !important;
+  color:var(--text-dim);
 }
 
 .gjs-block {
-  width: 100%;
+  width: 45%;
 }
 
 #carbonads {
@@ -334,8 +366,20 @@ html {
           border-bottom: none;
         }
 
+        .gjs-pn-btn {
+          transition: all 0.2s ease-in-out;
+        }
+
+        .gjs-pn-btn:hover::before {
+          color: var(--accent-color);
+          box-shadow: 0 5px 15px var(--accent-shadow-color);
+        }
+
         .gjs-pn-btn.gjs-pn-active {
           box-shadow: none;
+          color: var(--accent-color);
+          background: var(--component-dim);
+          border-color: var(--component-border);
         }
 
         .gjs-pn-views .gjs-pn-btn {
@@ -358,3 +402,18 @@ html {
         .grp-handler-cp-wrap {
           border-color: transparent;
         }
+
+
+/* Project Manager */
+
+.site-info h2 {
+  font-size: 14px;
+}
+
+.app button {
+  background: var(--accent-color);
+}
+
+.app button:hover {
+  background: var(--accent-light-color);
+}
