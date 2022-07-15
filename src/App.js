@@ -1,5 +1,6 @@
 import PluginCoinPrice from './modules/CoinPriceCovalent';
 import PluginWalletAuth from './modules/WalletAuth';
+import NFTSearch from './modules/NFTSearch';
 import './assets/css/tooltip.css';
 import './assets/css/main.css';
 import LoginModal from './views/modal/Login';
@@ -46,11 +47,22 @@ import ConfirmationModal from './views/modal/Confirmation';
             storageManager:  {
               type: 'firestore'
             },
+            canvas: {
+              scripts: [
+                'https://unpkg.com/moralis/dist/moralis.js',
+                'https://code.jquery.com/jquery-3.4.1.slim.min.js',
+                'https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js',
+                'https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js'
+              ],
+              // The same would be for external styles
+              styles: ['https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css'],
+            },
             selectorManager: { componentFirst: true, escapeName },
             styleManager: { sectors: [] },
             plugins: [
               PluginCoinPrice,
               PluginWalletAuth,
+              NFTSearch,
               'grapesjs-project-manager',
               // 'grapesjs-tailwind',
               // 'grapesjs-lory-slider',
@@ -66,14 +78,11 @@ import ConfirmationModal from './views/modal/Confirmation';
             ],
             pluginsOpts: {
               'grapesjs-project-manager': { 
-                loadFirst: true,
-                // Firebase API key
-                apiKey: 'AIzaSyCq-bGOOcMWtIi0XluZWYTohykQqdPMsN4',
-                // Firebase Auth domain
-                authDomain: 'dapp-d6358.firebaseapp.com',
-                // Cloud Firestore project ID
-                projectId: 'dapp-d6358',
-            },
+                  loadFirst: true,
+                  apiKey: process.env.FIREABSE_API_KEY,
+                  authDomain: process.env.FIREBASE_DOMAIN,
+                  projectId: process.env.FIREBASE_ID,
+              },
               'grapesjs-tui-image-editor': {
                 script: [
                   // 'https://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.6.7/fabric.min.js',

@@ -3,18 +3,15 @@ const Plugin = (editor) => {
     // Drag & Drop Spec
     const block = {
         id: 'section-smart-contract-ui',
-        label: 'Wallet Auth Button',
+        label: 'Metamask',
         category: 'Web3',
         attributes: {
-          class: 'fa fa-bitcoin',
+          // class: 'fa fa-bitcoin',
         },
         content: `
             <section id="smart-contract-ui" class="bg-white coin-price-content">
-              <div class="coin-price-component">
-                <img class="coin-price-logo" height="30" src="https://logos.covalenthq.com/tokens/0x2260fac5e5542a773aa44fbcfedf7c193bc2c599.png"/>
-                <span class="coin-price-ticker">WBTC: </span>
-                <span class="coin-price-quote">$45957.59</span>
-              </div>
+              <button id="btn-login" type="button" class="btn">Connect with 🦊</button>
+              <button id="btn-logout" type="button" class="btn" style="display:none;">Disconnect</button>
             </section>
             <style>
           .coin-price-component img {
@@ -29,28 +26,86 @@ const Plugin = (editor) => {
         model: {
             defaults: {
                 script,
-                abi: '',
-                method: '',
+                serverUrl: '',
+                appId: '',
                 traits: [
                     {
                         changeProp: 1,
                         type: 'text',
-                        name: 'abi'
+                        name: 'serverUrl'
                     },
                     {
                         changeProp: 1,
                         type: 'text',
-                        name: 'method'
+                        name: 'appId'
                     }
                 ],
-                'script-props': ['covalentKey', 'ticker']
+                'script-props': ['serverUrl', 'appId']
             }
         }
     };
 
     // Behavior
     function script (props) {
-        console.log("gg")
+      // $.getScript('https://unpkg.com/moralis/dist/moralis.js', function( data, textStatus, jqxhr ) {
+      //   console.log( data ); // Data returned
+      //   console.log( textStatus ); // Success
+      //   console.log( jqxhr.status ); // 200
+      //   console.log( "Load was performed." );
+      // });
+      console.log(props);
+      const serverUrl = props.serverUrl;
+      const appId = props.appId;
+      if (!serverUrl || !appId) return;
+      Moralis.start({ serverUrl, appId });
+
+      /* Authentication code */
+      
+
+      
+
+      $("#btn-login").on("click", async function login() {
+        console.log("login...");
+        let user = Moralis.User.current();
+        if (!user) {
+          user = await Moralis.authenticate({
+            signingMessage: "Log in using Moralis",
+          })
+            .then(function (user) {
+              console.log("logged in user:", user);
+              console.log(user.get("ethAddress"));
+              $('#btn-login').hide();
+              $('#btn-logout').show();
+              $('#btn-logout').html(user.get("ethAddress"));
+            })
+            .catch(function (error) {
+              console.log(error);
+              $('#btn-login').show();
+              $('#btn-logout').hide();
+            });
+        }
+      });
+
+      $("#btn-logout").on("click", async function logOut() {
+        console.log("logout");
+        await Moralis.User.logOut();
+        console.log("logged out");
+        $('#btn-login').show();
+        $('#btn-logout').hide();
+      });
+
+      // Current State
+      const currentUser = Moralis?.User?.current();
+      if (currentUser) {
+          // do stuff with the user
+          $('#btn-login').hide();
+          $('#btn-logout').show();
+          $('#btn-logout').html(currentUser.get("ethAddress"));
+      } else {
+          // show the signup or login page
+          $('#btn-login').show();
+          $('#btn-logout').hide();
+      }
     };
 
     // Append to editor

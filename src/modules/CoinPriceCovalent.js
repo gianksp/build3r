@@ -52,24 +52,17 @@ const Plugin = (editor) => {
     function script (props) {
         if (!props.ticker || !props.covalentKey) return;
 
-        const init = () => {
+        function init () {
             fetch(
             `https://api.covalenthq.com/v1/pricing/tickers/?tickers=${props.ticker}&key=${props.covalentKey}`
             )
-            .then((response) => response.json())
-            .then(({ data }) => {
-                if (!data) {
-                return;
-                }
-
+            .then(function (response) { return response.json() })
+            .then(function ({ data }) {
+                if (!data) return;
                 const item = data.items[0];
-                const logoEl = this.querySelector('.coin-price-logo');
-                const tickerEl = this.querySelector('.coin-price-ticker');
-                const quoteEl = this.querySelector('.coin-price-quote');
-
-                if (logoEl) logoEl.setAttribute('src', item?.logo_url);
-                if (tickerEl) tickerEl.innerText = item?.contract_ticker_symbol;
-                if (quoteEl) quoteEl.innerText = item?.quote_rate;
+                $('.coin-price-logo').attr('src',item?.logo_url);;
+                $('.coin-price-ticker').text(item?.contract_ticker_symbol);
+                $('.coin-price-quote').text(item?.quote_rate);
             });
         };
         
