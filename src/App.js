@@ -6,6 +6,7 @@ import './assets/css/main.css';
 import LoginModal from './views/modal/Login';
 import PublishModal from './views/modal/Publish';
 import ConfirmationModal from './views/modal/Confirmation';
+import * as LandingPage from './templates/LadingPage';
     
 
 // $().load("./views/modal/modal4.html #jquery-load-point");
@@ -60,10 +61,10 @@ import ConfirmationModal from './views/modal/Confirmation';
             selectorManager: { componentFirst: true, escapeName },
             styleManager: { sectors: [] },
             plugins: [
-              PluginCoinPrice,
-              PluginWalletAuth,
-              NFTSearch,
-              'grapesjs-project-manager',
+              // PluginCoinPrice,
+              // PluginWalletAuth,
+              // NFTSearch,
+              // 'grapesjs-project-manager',
               // 'grapesjs-tailwind',
               // 'grapesjs-lory-slider',
               // 'grapesjs-tabs',
@@ -78,7 +79,7 @@ import ConfirmationModal from './views/modal/Confirmation';
             ],
             pluginsOpts: {
               'grapesjs-project-manager': { 
-                  loadFirst: true,
+                  loadFirst: false,
                   apiKey: process.env.FIREABSE_API_KEY,
                   authDomain: process.env.FIREBASE_DOMAIN,
                   projectId: process.env.FIREBASE_ID,
@@ -374,7 +375,8 @@ import ConfirmationModal from './views/modal/Confirmation';
     
           window.editor = editor;
     
-    
+          editor.setComponents(LandingPage.html);
+          editor.setStyle(LandingPage.style);
     
     
           
@@ -417,8 +419,8 @@ import ConfirmationModal from './views/modal/Confirmation';
     
     
     
-    // Running commands from panels
-    // const pn = editor.Panels;
+   
+    
     // pn.addButton('options', {
     //     id: 'open-templates',
     //     className: 'fa fa-folder-o',
@@ -436,25 +438,6 @@ import ConfirmationModal from './views/modal/Confirmation';
     //     command: 'open-pages',
     //     togglable: false
     // });
-    
-    
-    pn.addButton('options', {
-        id: 'open-templates',
-        className: 'fa fa-folder-o',
-        attributes: {
-            title: 'Open projects and templates'
-        },
-        command: 'open-templates', //Open modal 
-    });
-    pn.addButton('views', {
-        id: 'open-pages',
-        className: 'fa fa-file-o',
-        attributes: {
-            title: 'Take Screenshot'
-        },
-        command: 'open-pages',
-        togglable: false
-    });
     
     
     
@@ -724,12 +707,17 @@ console.log(inputByName.value);
       console.log("logged in user:", user);
       console.log(user.get("ethAddress"));
 
-      $('#login-panel').modal('hide');
-      $('#current-email').text(props.email)
-      $('#publish-panel').modal('show');
+      $('.modal-title').html('Ready to publish?');
+      $('.modal-body').html(PublishModal);
+      $('#current-email').text(user.get('email'))
+      $('#modal-view').modal('show');
 
-      $("#submit-link-btn").removeClass('d-none');
-      $("#wait-link-btn").addClass('d-none');
+      // $('#login-panel').modal('hide');
+      // $('#current-email').text(props.email)
+      // $('#publish-panel').modal('show');
+
+      // $("#submit-link-btn").removeClass('d-none');
+      // $("#wait-link-btn").addClass('d-none');
 
     }
 
@@ -740,9 +728,10 @@ window.handleSwitchAccount = async () => {
   // alert("The form was submitted");
   await Moralis.User.logOut();
 
-  $('#publish-panel').modal('hide');
-  $('#login-panel').modal('show');
-  $('#current-email').text('')
+
+  $('.modal-title').html('Please Login');
+  $('.modal-body').html(LoginModal);
+  $('#modal-view').modal('show');
 }
 
 
