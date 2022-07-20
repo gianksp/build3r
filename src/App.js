@@ -1,6 +1,7 @@
 import PluginCoinPrice from './modules/CoinPriceCovalent';
 import PluginWalletAuth from './modules/WalletAuth';
 import NFTSearch from './modules/NFTSearch';
+import SmartContractUI from './modules/SmartContractUI';
 import './assets/css/tooltip.css';
 import './assets/css/main.css';
 import LoginModal from './views/modal/Login';
@@ -51,9 +52,10 @@ import * as LandingPage from './templates/LadingPage';
             canvas: {
               scripts: [
                 'https://unpkg.com/moralis/dist/moralis.js',
-                'https://code.jquery.com/jquery-3.4.1.slim.min.js',
+                'https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js',
                 'https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js',
-                'https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js'
+                'https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js',
+                'https://cdnjs.cloudflare.com/ajax/libs/ethers/5.6.9/ethers.umd.min.js'
               ],
               // The same would be for external styles
               styles: ['https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css'],
@@ -62,8 +64,9 @@ import * as LandingPage from './templates/LadingPage';
             styleManager: { sectors: [] },
             plugins: [
               // PluginCoinPrice,
-              // PluginWalletAuth,
-              // NFTSearch,
+              PluginWalletAuth,
+              NFTSearch,
+              SmartContractUI,
               // 'grapesjs-project-manager',
               // 'grapesjs-tailwind',
               // 'grapesjs-lory-slider',
@@ -765,8 +768,24 @@ window.handlePublishToIpfs = async (e) => {
     box-shadow: 3px 3px 5px 0 #a4a4a4;
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAM1BMVEX8/vz///+pqqkpKikrKysZGRkaGxqwsrCsrawAAAAcHByWl5aLjYsgICCAgYB4eXhxcnHvFLQZAAABSUlEQVR4nO3ay20CQQBEwdllgfEH4/yjNRkgIflQw6sAWnr3Hh/n4/TU59fcXzO/b8/n/9FxGeexLe06jm2sbNvHqUJbhb4KfRX6KvRV6KvQV6GvQl+Fvgp9Ffoq9FXoq9BXoa9CX4W+Cn0V+ir0Veir0PcWhbflC3+WL5zLF+4V2ir0Veir0Fehr0Jfhb4KfRX6KvRV6KvQV6GvQl+Fvgp9Ffoq9L3FU+G+fOH6j6H1X18V4ir0Veir0Fehr0Jfhb4KfRX6KvRV6KvQV6GvQl+Fvgp9Ffoq9FXoq9BXoa9CX4W+Cn0V+ir0Veir0Fehr0Jfhb4KfRX6KvRV6KvQV6GvQl+Fvgp9Ffoq9FXoq9BXoa9CX4W+Cn0V+ir0Veir0Fehr0Jfhb4KfRX6KvRV6KvQV6GvQl+Fvgp9Ffoehce2tjku131l8/cP3ZYMd7f8Rg4AAAAASUVORK5CYII=);`
 
+        const index = `
+          <!doctype html>
+          <html lang="en">
+            <head>
+              <meta charset="UTF-8">
+              <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+              <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
+              <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.6.9/ethers.umd.min.js" integrity="sha512-Veaz5IU2iRpa0BBrJlJeRgfJ7OAHWtVJZTXvgdH7s3ffsLUChllMCqC0Bb+eeRxGlrZ06iYIE/R3KsciCrgv3A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+              <style tyle="text/css">${Css}</style>
+            </head>
+            ${Html}
+          </html>`;
+        
+        
+        
+        editor.getHtml() + '<style>'+editor.getCss()+'</style>'
 
-        const index = `<!doctype html><html lang="en"><head><style tyle="text/css">${Css}</style></head>${Html}</html>`;
+
         const comps = index.split('</body>');
         const madeWith = `<div id="made-with" style="${s}">Made with Dappify</div>`
         const full = comps[0] + madeWith + comps[1];
@@ -774,23 +793,26 @@ window.handlePublishToIpfs = async (e) => {
       }
 
       const saveStaticDataToFile = (data, name) => {
+//         console.log(data);
+
+//         var frame = document.querySelector(".gjs-frame");
+
+//         console.log(frame.innerHTML);
+// var content = frame.contentDocument;
+
+// console.log(content.html());
+
+// console.log()  
+
+        // const serialized = new XMLSerializer().serializeToString(content);
+        // console.log(serialized.xml);
         console.log(data);
-
-        var frame = document.querySelector(".gjs-frame");
-
-        console.log(frame.innerHTML);
-var content = frame.contentDocument;
-
-console.log(content);
-
-// console.log()
-
-            var blob = new Blob([new XMLSerializer().serializeToString(content)],
-                { type: "text/plain;charset=utf-8" });
+            var blob = new Blob([data],
+                { type: "text/plain" });
                 // const ipfs = window.IpfsHttpClient({ host: 'ipfs.infura.io', port: 5001 })
 
-
-
+// console.log(blob);
+// return;
 
                 const file = new Moralis.File(data.name, blob);
 

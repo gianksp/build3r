@@ -2,14 +2,14 @@ const Plugin = (editor) => {
 
     // Drag & Drop Spec
     const block = {
-        id: 'section-smart-contract-ui',
+        id: 'section-wallet-metamask',
         label: 'Metamask',
         category: 'Web3',
         attributes: {
           // class: 'fa fa-bitcoin',
         },
         content: `
-            <section id="smart-contract-ui" class="bg-white coin-price-content">
+            <section id="wallet-metamask" class="bg-white coin-price-content">
               <button id="btn-login" type="button" class="btn">Connect with 🦊</button>
               <button id="btn-logout" type="button" class="btn" style="display:none;">Disconnect</button>
             </section>
@@ -22,7 +22,7 @@ const Plugin = (editor) => {
 
     // Configurable properties
     const type = {
-        isComponent: el =>  el.id === 'smart-contract-ui',
+        isComponent: el =>  el.id === 'wallet-metamask',
         model: {
             defaults: {
                 script,
@@ -109,8 +109,8 @@ const Plugin = (editor) => {
     };
 
     // Append to editor
-    editor.BlockManager.add('smart-contract-ui', block)
-    editor.DomComponents.addType('smart-contract-ui', type);
+    editor.BlockManager.add('wallet-metamask', block)
+    editor.DomComponents.addType('wallet-metamask', type);
 }
 
 export default Plugin;
