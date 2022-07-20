@@ -58,7 +58,10 @@ import * as LandingPage from './templates/LadingPage';
                 'https://cdnjs.cloudflare.com/ajax/libs/ethers/5.6.9/ethers.umd.min.js'
               ],
               // The same would be for external styles
-              styles: ['https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css'],
+              styles: [
+                'https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css',
+                'https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css'
+              ],
             },
             selectorManager: { componentFirst: true, escapeName },
             styleManager: { sectors: [] },
@@ -96,7 +99,7 @@ import * as LandingPage from './templates/LadingPage';
                 ],
                 style: [
                   'https://uicdn.toast.com/tui-color-picker/v2.2.7/tui-color-picker.min.css',
-                  'https://uicdn.toast.com/tui-image-editor/v3.15.2/tui-image-editor.min.css',
+                  'https://uicdn.toast.com/tui-image-editor/v3.15.2/tui-image-editor.min.css'
                 ],
               },
               'grapesjs-lory-slider': {
@@ -773,8 +776,10 @@ window.handlePublishToIpfs = async (e) => {
           <html lang="en">
             <head>
               <meta charset="UTF-8">
+              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" crossorigin="anonymous">
               <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
               <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
+              <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
               <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.6.9/ethers.umd.min.js" integrity="sha512-Veaz5IU2iRpa0BBrJlJeRgfJ7OAHWtVJZTXvgdH7s3ffsLUChllMCqC0Bb+eeRxGlrZ06iYIE/R3KsciCrgv3A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
               <style tyle="text/css">${Css}</style>
             </head>

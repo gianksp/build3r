@@ -14,6 +14,25 @@ const Plugin = (editor) => {
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
                     </div>
                 </div>
+                <div class="modal" tabindex="-1" role="dialog" id="sc-ui-modal>
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Modal body text goes here.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
             </section>
         `
     };
@@ -24,6 +43,7 @@ const Plugin = (editor) => {
         model: {
             defaults: {
                 script,
+                method: 'mint',
                 contractAddress: '0xC20Aa5e1e51d36e21fC91D953eed2e46681412C3',
                 abi: `[
                     {
@@ -510,9 +530,14 @@ const Plugin = (editor) => {
                         changeProp: 1,
                         abi: 'text',
                         name: 'abi'
+                    },
+                    {
+                        changeProp: 1,
+                        abi: 'text',
+                        name: 'method'
                     }
                 ],
-                'script-props': ['contractAddress', 'abi']
+                'script-props': ['contractAddress', 'abi', 'method']
             }
         }
     };
@@ -524,33 +549,34 @@ const Plugin = (editor) => {
         const address = props.contractAddress;
         const abi = JSON.parse(props.abi);
 
+        console.log($('#sc-ui-modal'));
+
 
         function renderInputs (item) {
-            return item.inputs.map(function(input) {
-                return (`
-                    <div>
-                        <label for="${input.name}">${input.name}</label><br>
-                        <input name="${input.name}" placeholder="${input.type}"></input><br>
+            const items = [];
+            item.inputs.forEach(function(input) {
+                items.push(`
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="form_${input.name}">${input.name}</span>
+                        </div>
+                        <input type="text" class="form-control" name="${input.name}" placeholder="${input.type}" aria-describedby="form_${input.name}">
                     </div>
                 `);
             })
+            return items;
         };
 
         $('.row-cols-1').empty();
         const col = $( ".row" );
         abi.filter(function(item) { 
-            return item.type === 'function' 
+            return item.type === 'function' && item.name === props.method
         }).forEach(function(item) {
-            console.log(item);
-                     // ${item.stateMutability !== 'view' ? (`
-                        //     <label for="${item.name}_value">Value ETH</label><br>
-                        //     <input name="${item.name}_value" placeholder="Value"></input><br></br>
-                        // `) : ''}
             const $newdiv1 = $(`
                 <div class="col">
                     <form>
-                        ${renderInputs(item)}
-                        <button id="${item.name}" onclick="handleButtonClick(event)">${item.name}</button><br>
+                        ${renderInputs(item).join('')}
+                        <button class="btn btn-primary btn-lg btn-block" id="${item.name}" onclick="handleButtonClick(event)">${item.name}</button><br>
                     </form>
                 </div>
             `)
