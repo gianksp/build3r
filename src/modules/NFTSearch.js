@@ -32,6 +32,8 @@ const NFTSearch = (editor) => {
                 script,
                 apiKey: '',
                 searchText: '',
+                contractAddress: '',
+                chain: 'ethereum',
                 traits: [
                     {
                         changeProp: 1,
@@ -42,9 +44,19 @@ const NFTSearch = (editor) => {
                         changeProp: 1,
                         type: 'text',
                         name: 'searchText'
+                    },
+                    {
+                        changeProp: 1,
+                        type: 'text',
+                        name: 'contractAddress'
+                    },
+                    {
+                        changeProp: 1,
+                        type: 'text',
+                        name: 'chain'
                     }
                 ],
-                'script-props': ['apiKey', 'searchText']
+                'script-props': ['apiKey', 'searchText', 'contractAddress', 'chain']
             }
         }
     };
@@ -56,7 +68,7 @@ const NFTSearch = (editor) => {
         function searchNFT (search) {
             $('.row-cols-1').empty();
             const col = $( ".row" );
-            fetch(`https://api.nftport.xyz/v0/search?chain=all&page_size=20${search ? `&text=${search}` : ''}`, {
+            fetch(`https://api.nftport.xyz/v0/search?chain=${props.chain}&page_size=20${props.contractAddress ? `&filter_by_contract_address=${props.contractAddress}` : ''}${search ? `&text=${search}` : ''}`, {
             "method": "GET",
             "headers": {
                 "Content-Type": "application/json",
@@ -73,9 +85,9 @@ const NFTSearch = (editor) => {
                     const $newdiv1 = $(`
                         <div class="col">
                             <div class="card" style="width: 18rem;">
-                                <img class="card-img-top" src='${item.cached_file_url}' alt="Card image cap">
+                                <img class="card-img-top" src='${item.cached_file_url}' alt="Card image cap" height="250px" width="auto">
                                 <div class="card-body">
-                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    <p class="card-text">${item.description}</p>
                                 </div>
                             </div>
                         </div>

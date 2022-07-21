@@ -2,6 +2,7 @@ import PluginCoinPrice from './modules/CoinPriceCovalent';
 import PluginWalletAuth from './modules/WalletAuth';
 import NFTSearch from './modules/NFTSearch';
 import SmartContractUI from './modules/SmartContractUI';
+import TheGraphNFTAuctions from './modules/TheGraphNFTAuctions';
 import './assets/css/tooltip.css';
 import './assets/css/main.css';
 import LoginModal from './views/modal/Login';
@@ -66,10 +67,11 @@ import * as LandingPage from './templates/LadingPage';
             selectorManager: { componentFirst: true, escapeName },
             styleManager: { sectors: [] },
             plugins: [
-              // PluginCoinPrice,
+              PluginCoinPrice,
               PluginWalletAuth,
               NFTSearch,
               SmartContractUI,
+              TheGraphNFTAuctions,
               // 'grapesjs-project-manager',
               // 'grapesjs-tailwind',
               // 'grapesjs-lory-slider',
