@@ -1,3 +1,30 @@
+/**
+ * SmartContractUI Plugin - HackFS 2022
+ * 
+ * This plugin for Build3r allows anyone to quickly create an interface for smart contract methods by drag
+ * and dropping as a UI module to the canvas.
+ * 
+ * As a builder you can specify target method, contract address and abi and this component
+ * will render the UI to access the method.
+ * 
+ * By default is allowing users to generate an NFT token for our smart contract in Polygon 
+ * https://polygonscan.com/address/0xC20Aa5e1e51d36e21fC91D953eed2e46681412C3
+ * 
+ * Prerrequisites:
+ * 
+ * This plugin depends on WalletAuth plugin to inject Web3 provider context into the website so it should be
+ * used in conjunction.
+ * 
+ * Users:
+ * 
+ * A visitor to the page, who has signed in with WalletAuth plugin can invoke this plugin function, provided
+ * the parameters and execute a smart contract action directly. They will need to be pointing to the right
+ * wallet address.
+ * 
+ * 
+ * @param {
+ * } editor 
+ */
 const Plugin = (editor) => {
 
     // Drag & Drop Spec
@@ -6,7 +33,7 @@ const Plugin = (editor) => {
         label: 'Smart Contract UI',
         category: 'Web3',
         attributes: {
-          class: 'fa fa-bitcoin',
+          class: 'fa fa-file-code-o',
         },
         content: `
             <section id="smart-contract-ui">
@@ -604,8 +631,11 @@ const Plugin = (editor) => {
             const contract = new ethers.Contract(address, abi, signer, { gasLimit: ethers.utils.hexlify(250000), gasPrice: ethers.utils.parseUnits('5', "gwei") });
             console.log(contract);
             const args = form.map(function(item) { return item.value; });
+            console.log("arguments");
+            console.log(args);
             console.log(...args);
             console.log(e.target.id);
+            console.log("0-----");
             const targetFn = contract[e.target.id];
             console.log(targetFn);
             const res = await targetFn(...args);

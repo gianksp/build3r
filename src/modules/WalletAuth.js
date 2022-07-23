@@ -1,16 +1,17 @@
 const Plugin = (editor) => {
 
+    const id = 'wallet-metakask'
     // Drag & Drop Spec
     const block = {
-        id: 'section-wallet-metamask',
-        label: 'Metamask',
+        id: `section-${id}`,
+        label: 'Connect Wallet',
         category: 'Web3',
         attributes: {
-          // class: 'fa fa-bitcoin',
+          class: 'fa fa-address-card-o',
         },
         content: `
-            <section id="wallet-metamask" class="bg-white coin-price-content">
-              <button id="btn-login" type="button" class="btn">Connect with 🦊</button>
+            <section id="${id}">
+              <button id="btn-login" type="button" class="btn">Connect wallet</button>
               <button id="btn-logout" type="button" class="btn" style="display:none;">Disconnect</button>
             </section>
             <style>
@@ -22,12 +23,12 @@ const Plugin = (editor) => {
 
     // Configurable properties
     const type = {
-        isComponent: el =>  el.id === 'wallet-metamask',
+        isComponent: el =>  el.id === id,
         model: {
             defaults: {
                 script,
-                serverUrl: '',
-                appId: '',
+                serverUrl: process.env.SERVER_URL,
+                appId: process.env.APP_ID,
                 traits: [
                     {
                         changeProp: 1,
@@ -47,39 +48,24 @@ const Plugin = (editor) => {
 
     // Behavior
     function script (props) {
-      // $.getScript('https://unpkg.com/moralis/dist/moralis.js', function( data, textStatus, jqxhr ) {
-      //   console.log( data ); // Data returned
-      //   console.log( textStatus ); // Success
-      //   console.log( jqxhr.status ); // 200
-      //   console.log( "Load was performed." );
-      // });
-      console.log(props);
       const serverUrl = props.serverUrl;
       const appId = props.appId;
       if (!serverUrl || !appId) return;
       Moralis.start({ serverUrl, appId });
 
       /* Authentication code */
-      
-
-      
-
       $("#btn-login").on("click", async function login() {
-        console.log("login...");
         let user = Moralis.User.current();
         if (!user) {
           user = await Moralis.authenticate({
             signingMessage: "Log in using Moralis",
           })
             .then(function (user) {
-              console.log("logged in user:", user);
-              console.log(user.get("ethAddress"));
               $('#btn-login').hide();
               $('#btn-logout').show();
               $('#btn-logout').html(user.get("ethAddress"));
             })
             .catch(function (error) {
-              console.log(error);
               $('#btn-login').show();
               $('#btn-logout').hide();
             });
@@ -87,9 +73,7 @@ const Plugin = (editor) => {
       });
 
       $("#btn-logout").on("click", async function logOut() {
-        console.log("logout");
         await Moralis.User.logOut();
-        console.log("logged out");
         $('#btn-login').show();
         $('#btn-logout').hide();
       });
@@ -109,8 +93,8 @@ const Plugin = (editor) => {
     };
 
     // Append to editor
-    editor.BlockManager.add('wallet-metamask', block)
-    editor.DomComponents.addType('wallet-metamask', type);
+    editor.BlockManager.add(id, block)
+    editor.DomComponents.addType(id, type);
 }
 
 export default Plugin;

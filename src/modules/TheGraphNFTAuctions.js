@@ -1,15 +1,16 @@
 const Plugin = (editor) => {
 
+    const id = 'graph-auction';
     // Drag & Drop Spec
     const block = {
-        id: 'section-graph-auction',
-        label: 'NFT Auctions',
+        id: `section-${id}`,
+        label: 'Graph Chart',
         category: 'Web3',
         attributes: {
-          class: 'fa fa-bitcoin',
+          class: 'fa fa-bar-chart-o',
         },
         content: `
-            <section id="nft-auctions" class="bg-white coin-price-content">
+            <section id="${id}" class="bg-white coin-price-content">
                 Auctions
                 <ul class="list-group">
                     <li class="list-group-item">Successful Auctions</li>
@@ -19,7 +20,7 @@ const Plugin = (editor) => {
 
     // Configurable properties
     const type = {
-        isComponent: el =>  el.id === 'nft-auctions',
+        isComponent: el =>  el.id === id,
         model: {
             defaults: {
                 script,
@@ -83,8 +84,8 @@ const Plugin = (editor) => {
     };
 
     // Append to editor
-    editor.BlockManager.add('nft-auctions', block)
-    editor.DomComponents.addType('nft-auctions', type);
+    editor.BlockManager.add(id, block)
+    editor.DomComponents.addType(id, type);
 }
 
 export default Plugin;

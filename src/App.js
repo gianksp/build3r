@@ -1,8 +1,11 @@
-import PluginCoinPrice from './modules/CoinPriceCovalent';
+// Plugins
+import PluginPriceContext from './modules/CovalentPriceContext';
 import PluginWalletAuth from './modules/WalletAuth';
-import NFTSearch from './modules/NFTSearch';
-import SmartContractUI from './modules/SmartContractUI';
-import TheGraphNFTAuctions from './modules/TheGraphNFTAuctions';
+import PluginXMTPWidget from './modules/XMTPWidget';
+import PluginSmartContractUI from './modules/SmartContractUI';
+import PluginNFTSearch from './modules/NFTSearch';
+import PluginGraphChart from './modules/TheGraphChart';
+
 import './assets/css/tooltip.css';
 import './assets/css/main.css';
 import LoginModal from './views/modal/Login';
@@ -56,7 +59,8 @@ import * as LandingPage from './templates/LadingPage';
                 'https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js',
                 'https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js',
                 'https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js',
-                'https://cdnjs.cloudflare.com/ajax/libs/ethers/5.6.9/ethers.umd.min.js'
+                'https://cdnjs.cloudflare.com/ajax/libs/ethers/5.6.9/ethers.umd.min.js',
+                'https://cdn.jsdelivr.net/npm/chart.js'
               ],
               // The same would be for external styles
               styles: [
@@ -67,11 +71,12 @@ import * as LandingPage from './templates/LadingPage';
             selectorManager: { componentFirst: true, escapeName },
             styleManager: { sectors: [] },
             plugins: [
-              PluginCoinPrice,
+              PluginPriceContext,
               PluginWalletAuth,
-              NFTSearch,
-              SmartContractUI,
-              TheGraphNFTAuctions,
+              PluginSmartContractUI,
+              PluginNFTSearch,
+              PluginGraphChart,
+              PluginXMTPWidget,
               // 'grapesjs-project-manager',
               // 'grapesjs-tailwind',
               // 'grapesjs-lory-slider',
@@ -113,6 +118,11 @@ import * as LandingPage from './templates/LadingPage';
                 tabsBlock: {
                   category: 'Extra'
                 }
+              },
+              'xmtp-widget': {
+                script: [
+                  'https://unpkg.com/@xmtp/xmtp-js@5.0.0/dist/umd/index.js'
+                ]
               },
               'grapesjs-typed': {
                 block: {
@@ -781,6 +791,7 @@ window.handlePublishToIpfs = async (e) => {
               <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" crossorigin="anonymous">
               <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
               <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
+              <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
               <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
               <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.6.9/ethers.umd.min.js" integrity="sha512-Veaz5IU2iRpa0BBrJlJeRgfJ7OAHWtVJZTXvgdH7s3ffsLUChllMCqC0Bb+eeRxGlrZ06iYIE/R3KsciCrgv3A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
               <style tyle="text/css">${Css}</style>

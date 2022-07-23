@@ -1,15 +1,28 @@
+/**
+ * NFT Search - HackFS 2022
+ * 
+ * This is a plugin for build3r that leverages NFT Port search capabilities to let any user
+ * drag and drop a configurable search container for NFTs on their landing page/app.
+ * 
+ * It can be used in conjunction other plugins to add contextual value for users and lowering
+ * the entry barrier for builders since now they will be able to use NFTPort
+ * functionalities without writing any code.
+ * 
+ * 
+ * @param {*} editor 
+ */
 const NFTSearch = (editor) => {
-
+    const id = 'nft-search';
     // Drag & Drop Spec
     const block = {
-        id: 'section-nft-search',
+        id: `section-${id}`,
         label: 'NFT Search',
         category: 'Web3',
         attributes: {
-          class: 'fa fa-bitcoin',
+          class: 'fa fa-binoculars',
         },
         content: `
-            <section id="nft-search">
+            <section id="${id}">
                 <div class="input-group mb-3">
                     <input id="nft-search-input" type="text" class="form-control" placeholder="Type a text to search NFTs by e.g robot" aria-label="Type a text to search NFTs by e.g robot" aria-describedby="basic-addon2">
                     <div class="input-group-append">
@@ -26,12 +39,12 @@ const NFTSearch = (editor) => {
 
     // Configurable properties
     const type = {
-        isComponent: el =>  el.id === 'nft-search',
+        isComponent: el =>  el.id === id,
         model: {
             defaults: {
                 script,
-                apiKey: '',
-                searchText: '',
+                apiKey: '625bb9ba-bbde-4756-8117-3193a51123f3',
+                searchText: 'robot',
                 contractAddress: '',
                 chain: 'ethereum',
                 traits: [
@@ -77,7 +90,6 @@ const NFTSearch = (editor) => {
             })
             .then(response => response.json())
             .catch(err => {
-            console.error(err);
             }).then(response => {
                 const results = response?.search_results || [];
                 results.forEach(function(item){
@@ -107,8 +119,8 @@ const NFTSearch = (editor) => {
     };
 
     // Append to editor
-    editor.BlockManager.add('nft-search', block)
-    editor.DomComponents.addType('nft-search', type);
+    editor.BlockManager.add(id, block)
+    editor.DomComponents.addType(id, type);
 }
 
 export default NFTSearch;

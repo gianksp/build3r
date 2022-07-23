@@ -1,15 +1,33 @@
+/**
+ * Covalent Price Context Widget - HackFS 2022
+ * 
+ * This widget provides contextual information on price corresponding in USD for a given token using the Covalent API. 
+ * Once this widget is added to the canvas and a css class is added as a property it will scan all the entries in the 
+ * DOM with that class and append the value in USD.
+ * 
+ * It can be used to render price in USD next to the current price in other tokens for example when displaying a dashboard
+ * or a list with nft prices in their local tokens.
+ * 
+ * For this demo you can add the GraphChart plugin to the canvas and then include the PriceContext plugin anywhere. It will
+ * emit an event that will aler components consuming pricing.
+ * 
+ * @param {
+ * } editor 
+ */
 const Plugin = (editor) => {
+
+    const id = 'coin-price';
 
     // Drag & Drop Spec
     const block = {
-        id: 'section-coin-price',
-        label: 'Coin Price',
+        id: `section-${id}`,
+        label: 'Price Context',
         category: 'Web3',
         attributes: {
           class: 'fa fa-bitcoin',
         },
         content: `
-            <section id="coin-price" class="bg-white coin-price-content">
+            <section id="${id}" class="bg-white coin-price-content">
               <div class="coin-price-component">
                 <img class="coin-price-logo" height="30" src="https://logos.covalenthq.com/tokens/0x2260fac5e5542a773aa44fbcfedf7c193bc2c599.png"/>
                 <span class="coin-price-ticker">WBTC: </span>
@@ -25,11 +43,11 @@ const Plugin = (editor) => {
 
     // Configurable properties
     const type = {
-        isComponent: el =>  el.id === 'coin-price',
+        isComponent: el =>  el.id === id,
         model: {
             defaults: {
                 script,
-                covalentKey: '',
+                covalentKey: process.env.COVALENT_API_KEY,
                 ticker: 'ETH',
                 targetClass: 'pricing-item',
                 traits: [
@@ -66,22 +84,20 @@ const Plugin = (editor) => {
             .then(function ({ data }) {
                 if (!data) return;
                 const item = data.items[0];
+                const price = parseFloat(item?.quote_rate);
                 $('.coin-price-logo').attr('src',item?.logo_url);;
                 $('.coin-price-ticker').text(item?.contract_ticker_symbol);
                 $('.coin-price-quote').text(item?.quote_rate);
-                // $('.pricing-item').text(item?.quote_rate);
                 $(`.${props.targetClass}`).each(function(element, index){
-                    //you can use this to access the current item
                     const orgval = $( this ).text();
                     const val = parseFloat(ethers.utils.formatEther(orgval));
-                    console.log(val);
-                    const price = parseFloat(item?.quote_rate);
-                    console.log(price);
                     const r = val * price;
                     $( this ).text(`${orgval} ($${r.toFixed(2)})`);
-                    console.log(r);
-                    console.log(index);
                 });
+                // Also trigger event
+                window.priceContextUpdate = price;
+                document.dispatchEvent(new Event('priceContextUpdate'))
+                console.log('triggering...');
             });
         };
         
@@ -89,8 +105,8 @@ const Plugin = (editor) => {
     };
 
     // Append to editor
-    editor.BlockManager.add('coin-price', block)
-    editor.DomComponents.addType('coin-price', type);
+    editor.BlockManager.add(id, block)
+    editor.DomComponents.addType(id, type);
 }
 
 export default Plugin;
