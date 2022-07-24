@@ -38,7 +38,7 @@ While other editors may allow drag and drop and no-code composability, the power
 
 UI and modules
 
-### Frontend
+### Frontend
 
 The framework is a fork of Grapesjs https://grapesjs.com/ designed for decentralised interactions. GrapesJS is a free and open source Web Builder Framework which helps building HTML templates. All projects are deployed to IPFS and the site is hosted in Firebase.
 
