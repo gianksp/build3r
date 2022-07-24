@@ -87,3 +87,32 @@ with admins or support team and is configurable
 https://github.com/gianksp/build3r/blob/master/src/App.js#L756
 
 All projects are packaged and deployed to IPFS, because IPFS adds certain restrictions to SPA deployed, for example, they need to have relative references to other assets within the application, packaging is a complex problem solved here by transpiling everything to vanilla js.
+
+# Installation
+
+You need to create a `.env` file in the root
+```
+SERVER_URL=<Moralis server URL>
+APP_ID=<Moralis app Id>
+MAGIC=<Magic link pkey>
+FIREBASE_DOMAIN=<Firebase subdomain>
+FIREABSE_API_KEY=<Firebase api key>
+FIREBASE_ID=<Firebase app Id>
+COVALENT_API_KEY=<Covalent API Key>
+```
+
+Clone the repo
+
+```
+npm -i
+```
+
+To run
+```
+npm run dev
+```
+
+To build
+```
+npm run build
+```
